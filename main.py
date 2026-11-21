@@ -20,11 +20,20 @@ is to stay, and to stay is hers.
 
 OUTPUT_PATH = "/output/entry.txt"
 
+MAX_CHARS = 280
+MIN_CHARS = 1
+
+
+def validate_poem(text):
+    """The gate: entry.txt must hold 1-280 characters, not only whitespace."""
+    stripped = text.strip()
+    if not MIN_CHARS <= len(text) <= MAX_CHARS or not stripped:
+        raise SystemExit(f"poem fails the 1-280 char gate: {len(text)} chars")
+    return text
+
 
 def main():
-    # Gate: /output/entry.txt must hold 1-280 characters of non-whitespace text.
-    if not 1 <= len(POEM) <= 280 or not POEM.strip():
-        raise SystemExit(f"poem fails the 1-280 char gate: {len(POEM)} chars")
+    validate_poem(POEM)
     os.makedirs("/output", exist_ok=True)
     with open(OUTPUT_PATH, "w", encoding="utf-8") as handle:
         handle.write(POEM)
